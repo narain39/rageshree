@@ -44,7 +44,7 @@
 
   /* Mandala + mic */
   .stage{position:relative; width:230px; height:230px; margin:22px auto 6px; display:flex; align-items:center; justify-content:center;}
-  .ring{position:absolute; border:1px solid rgba(212,175,55,.35); border-radius:50%;}
+  .ring{position:absolute; border:1px solid rgba(212,175,55,.35); border-radius:50%; pointer-events:none;}
   .ring.r1{inset:0;} .ring.r2{inset:24px;} .ring.r3{inset:48px;}
   .ring.spin{animation:spin 24s linear infinite;}
   .ring.spin.rev{animation-direction:reverse; animation-duration:32s;}
@@ -55,6 +55,7 @@
     box-shadow:0 0 0 1px rgba(212,175,55,.5), 0 0 40px rgba(212,175,55,.18), inset 0 0 30px rgba(0,0,0,.4);
     color:var(--gold-soft); display:flex; align-items:center; justify-content:center;
     transition:transform .15s ease, box-shadow .3s ease; touch-action:manipulation;
+    position:relative; z-index:2;
   }
   .mic-btn:active{transform:scale(.95);}
   .mic-btn.listening{animation:pulse 1.4s infinite ease-in-out;
