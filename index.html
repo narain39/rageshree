@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+<title>रागेश्री — Raga Identifier</title>
+<meta name="description" content="Listen to Indian classical music and identify the raga on-device." />
+
+<!-- PWA / iOS -->
+<meta name="theme-color" content="#1a0b2e" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="रागेश्री" />
+<link rel="apple-touch-icon" href="data:image/png;base64,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" />
+<link rel="icon" type="image/png" href="data:image/png;base64,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" />
+
+<style>
+  :root{
+    --bg:#1a0b2e; --bg2:#2a1454; --gold:#d4af37; --gold-soft:#e8c860;
+    --ink:#f3e9d2; --muted:#b9a9d6; --danger:#ff6b6b; --good:#6bd49b;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0; height:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:radial-gradient(1200px 800px at 50% -10%, #3a1d6e 0%, var(--bg2) 35%, var(--bg) 75%);
+    color:var(--ink); min-height:100%;
+    padding:calc(env(safe-area-inset-top) + 14px) calc(env(safe-area-inset-right) + 16px)
+            calc(env(safe-area-inset-bottom) + 20px) calc(env(safe-area-inset-left) + 16px);
+    overflow-x:hidden;
+  }
+  .stars{position:fixed; inset:0; pointer-events:none; z-index:0;}
+  .star{position:absolute; width:2px; height:2px; background:#fff; border-radius:50%; opacity:.5; animation:tw 3s infinite ease-in-out;}
+  @keyframes tw{0%,100%{opacity:.15;}50%{opacity:.7;}}
+  .wrap{position:relative; z-index:1; max-width:560px; margin:0 auto;}
+
+  header{text-align:center; margin-bottom:10px;}
+  .title{font-size:44px; font-weight:700; letter-spacing:.5px;
+    background:linear-gradient(180deg,var(--gold-soft),var(--gold));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:0 2px 30px rgba(212,175,55,.25); line-height:1.1;}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:2px; letter-spacing:1px;}
+
+  /* Mandala + mic */
+  .stage{position:relative; width:230px; height:230px; margin:22px auto 6px; display:flex; align-items:center; justify-content:center;}
+  .ring{position:absolute; border:1px solid rgba(212,175,55,.35); border-radius:50%;}
+  .ring.r1{inset:0;} .ring.r2{inset:24px;} .ring.r3{inset:48px;}
+  .ring.spin{animation:spin 24s linear infinite;}
+  .ring.spin.rev{animation-direction:reverse; animation-duration:32s;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .mic-btn{
+    width:128px; height:128px; border-radius:50%; border:none; cursor:pointer;
+    background:radial-gradient(circle at 35% 30%, #3a2270, #1d1040);
+    box-shadow:0 0 0 1px rgba(212,175,55,.5), 0 0 40px rgba(212,175,55,.18), inset 0 0 30px rgba(0,0,0,.4);
+    color:var(--gold-soft); display:flex; align-items:center; justify-content:center;
+    transition:transform .15s ease, box-shadow .3s ease; touch-action:manipulation;
+  }
+  .mic-btn:active{transform:scale(.95);}
+  .mic-btn.listening{animation:pulse 1.4s infinite ease-in-out;
+    box-shadow:0 0 0 1px var(--gold), 0 0 60px rgba(212,175,55,.45), inset 0 0 30px rgba(0,0,0,.4);}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 1px var(--gold),0 0 40px rgba(212,175,55,.3);}50%{box-shadow:0 0 0 1px var(--gold),0 0 70px rgba(212,175,55,.6);}}
+  .mic-btn svg{width:54px; height:54px;}
+
+  .status{text-align:center; color:var(--muted); font-size:15px; min-height:22px; margin-top:8px;}
+  .hint{text-align:center; color:#8d7eb0; font-size:12.5px; margin-top:2px;}
+
+  /* Live readout */
+  .live{margin:14px auto 0; max-width:520px;}
+  canvas#wave{width:100%; height:70px; display:block; border-radius:12px;
+    background:rgba(0,0,0,.25); border:1px solid rgba(212,175,55,.18);}
+  .note-readout{display:flex; align-items:center; justify-content:center; gap:14px; margin-top:10px; min-height:40px;}
+  .note-now{font-size:30px; font-weight:700; color:var(--gold-soft); min-width:64px; text-align:center;}
+  .note-hz{font-size:12px; color:var(--muted);}
+  .swara-chips{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:10px;}
+  .chip{font-size:12px; padding:3px 9px; border-radius:999px; background:rgba(212,175,55,.12);
+    border:1px solid rgba(212,175,55,.35); color:var(--gold-soft);}
+
+  .controls{display:flex; gap:10px; justify-content:center; margin-top:16px; flex-wrap:wrap;}
+  .btn{padding:11px 20px; border-radius:999px; font-size:15px; font-weight:600; cursor:pointer;
+    border:1px solid rgba(212,175,55,.5); background:rgba(212,175,55,.1); color:var(--gold-soft);
+    transition:background .2s; touch-action:manipulation;}
+  .btn.primary{background:linear-gradient(180deg,var(--gold-soft),var(--gold)); color:#2a1454; border:none;}
+  .btn:disabled{opacity:.4; cursor:not-allowed;}
+
+  /* Sa calibration */
+  .sa-row{display:flex; align-items:center; justify-content:center; gap:8px; margin-top:12px; font-size:13px; color:var(--muted);}
+  .sa-row select{background:#241246; color:var(--ink); border:1px solid rgba(212,175,55,.4);
+    border-radius:8px; padding:5px 8px; font-size:13px;}
+
+  /* Results */
+  .results{margin-top:22px;}
+  .card{background:linear-gradient(180deg, rgba(58,29,110,.55), rgba(29,16,64,.55));
+    border:1px solid rgba(212,175,55,.3); border-radius:18px; padding:18px; margin-bottom:14px;
+    box-shadow:0 10px 40px rgba(0,0,0,.35); animation:rise .4s ease both;}
+  @keyframes rise{from{opacity:0; transform:translateY(14px);}to{opacity:1; transform:none;}}
+  .card .rank{font-size:12px; color:var(--muted); letter-spacing:1px; text-transform:uppercase;}
+  .card .rname{font-size:30px; font-weight:700; color:var(--gold-soft); line-height:1.15;}
+  .card .rrom{font-size:14px; color:var(--muted); margin-bottom:8px;}
+  .conf{height:8px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; margin:8px 0 12px;}
+  .conf > div{height:100%; background:linear-gradient(90deg,var(--gold),var(--good));}
+  .meta{display:grid; grid-template-columns:1fr 1fr; gap:8px 14px; font-size:13.5px; margin-bottom:10px;}
+  .meta b{color:var(--gold-soft); font-weight:600;}
+  .desc{font-size:14px; line-height:1.55; color:#e6dcc4;}
+  .artists{font-size:12.5px; color:var(--muted); margin-top:8px;}
+
+  /* Permission help */
+  .panel{background:rgba(255,107,107,.08); border:1px solid rgba(255,107,107,.4);
+    border-radius:14px; padding:16px; margin-top:18px; font-size:14px; line-height:1.6;}
+  .panel.warn{background:rgba(212,175,55,.08); border-color:rgba(212,175,55,.4);}
+  .panel h3{margin:0 0 8px; font-size:15px; color:var(--gold-soft);}
+  .panel code{background:rgba(0,0,0,.3); padding:2px 6px; border-radius:6px; font-size:13px;}
+  .hidden{display:none !important;}
+
+  /* Install banner */
+  .install{position:fixed; left:12px; right:12px; bottom:calc(env(safe-area-inset-bottom) + 12px);
+    z-index:5; background:linear-gradient(180deg,#3a1d6e,#241246); border:1px solid rgba(212,175,55,.45);
+    border-radius:14px; padding:12px 14px; display:flex; gap:10px; align-items:center;
+    box-shadow:0 10px 40px rgba(0,0,0,.5); max-width:560px; margin:0 auto;}
+  .install p{margin:0; font-size:13px; flex:1; color:var(--ink);}
+  .install .x{cursor:pointer; color:var(--muted); font-size:20px; padding:0 4px;}
+  footer{text-align:center; color:#7a6ba0; font-size:11px; margin-top:24px; line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+
+<div class="wrap">
+  <header>
+    <div class="title">रागेश्री</div>
+    <div class="subtitle">RAGA  IDENTIFIER</div>
+  </header>
+
+  <div class="stage">
+    <div class="ring r1 spin"></div>
+    <div class="ring r2 spin rev"></div>
+    <div class="ring r3 spin"></div>
+    <button class="mic-btn" id="micBtn" aria-label="Start listening">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="2" width="6" height="12" rx="3"></rect>
+        <path d="M5 11a7 7 0 0 0 14 0"></path>
+        <line x1="12" y1="18" x2="12" y2="22"></line>
+        <line x1="8" y1="22" x2="16" y2="22"></line>
+      </svg>
+    </button>
+  </div>
+
+  <div class="status" id="status">Tap the mic to listen</div>
+  <div class="hint" id="hint">Play, sing, or hum a melody for ~15 seconds</div>
+
+  <div class="live hidden" id="live">
+    <canvas id="wave" width="520" height="70"></canvas>
+    <div class="note-readout">
+      <div class="note-now" id="noteNow">–</div>
+      <div class="note-hz" id="noteHz"></div>
+    </div>
+    <div class="swara-chips" id="swaraChips"></div>
+  </div>
+
+  <div class="controls">
+    <button class="btn primary hidden" id="identifyBtn">Identify Raga</button>
+    <button class="btn hidden" id="resetBtn">Listen Again</button>
+  </div>
+
+  <div class="sa-row hidden" id="saRow">
+    <span>Sa (tonic):</span>
+    <select id="saSelect">
+      <option value="auto" selected>Auto-detect</option>
+      <option value="0">C</option><option value="1">C#</option><option value="2">D</option>
+      <option value="3">D#</option><option value="4">E</option><option value="5">F</option>
+      <option value="6">F#</option><option value="7">G</option><option value="8">G#</option>
+      <option value="9">A</option><option value="10">A#</option><option value="11">B</option>
+    </select>
+  </div>
+
+  <div class="results" id="results"></div>
+
+  <!-- Permission / context help -->
+  <div class="panel hidden" id="permPanel">
+    <h3 id="permTitle">Microphone access needed</h3>
+    <div id="permBody"></div>
+  </div>
+
+  <footer>
+    Runs fully on-device · no audio leaves your phone.<br/>
+    Heuristic raga matching from detected swaras — best with a clear, sustained melody.
+  </footer>
+</div>
+
+<div class="install hidden" id="installBanner">
+  <p>📲 Add to Home Screen: tap <b>Share</b> then <b>“Add to Home Screen”</b> for mic access &amp; fullscreen.</p>
+  <span class="x" id="installX">×</span>
+</div>
+
+<script>
+/* ============================================================
+   रागेश्री — on-device raga identification
+   Fixes the iOS Safari mic issue:
+   1. getUserMedia requires a SECURE (https) context — we detect & explain.
+   2. getUserMedia must be invoked inside the user gesture with no awaits before it.
+   3. AudioContext is created/resumed inside the same tap.
+============================================================ */
+
+// ---------- starfield ----------
+(function(){
+  const c = document.getElementById('stars');
+  for (let i=0;i<46;i++){
+    const s=document.createElement('div'); s.className='star';
+    s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=(Math.random()*3)+'s';
+    s.style.transform='scale('+(0.5+Math.random()*1.6)+')';
+    c.appendChild(s);
+  }
+})();
+
+// ---------- elements ----------
+const micBtn = document.getElementById('micBtn');
+const statusEl = document.getElementById('status');
+const hintEl = document.getElementById('hint');
+const live = document.getElementById('live');
+const wave = document.getElementById('wave');
+const noteNow = document.getElementById('noteNow');
+const noteHz = document.getElementById('noteHz');
+const swaraChips = document.getElementById('swaraChips');
+const identifyBtn = document.getElementById('identifyBtn');
+const resetBtn = document.getElementById('resetBtn');
+const saRow = document.getElementById('saRow');
+const saSelect = document.getElementById('saSelect');
+const results = document.getElementById('results');
+const permPanel = document.getElementById('permPanel');
+const permTitle = document.getElementById('permTitle');
+const permBody = document.getElementById('permBody');
+const installBanner = document.getElementById('installBanner');
+
+// ---------- swara / raga data ----------
+const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+// swara label for a semitone offset from Sa (0..11)
+const SWARA = ['Sa','re','Re','ga','Ga','Ma','Má','Pa','dha','Dha','ni','Ni'];
+
+// Each raga: set of semitone classes (relative to Sa) it uses.
+const RAGAS = [
+  { name:'भैरव', rom:'Bhairav', thaat:'Bhairav', set:[0,1,4,5,7,8,11],
+    time:'Early morning', season:'—', mood:'Devotional, serene, awe',
+    desc:'A profound morning raga evoking dawn and meditative devotion. The komal Re and komal Dha give it a solemn, ancient character.',
+    artists:'Bhimsen Joshi, Bismillah Khan' },
+  { name:'यमन', rom:'Yaman', thaat:'Kalyan', set:[0,2,4,6,7,9,11],
+    time:'Early night', season:'—', mood:'Romantic, expansive, peaceful',
+    desc:'One of the first ragas taught, featuring tivra Ma. Bright and uplifting, ideal for the first quarter of the night.',
+    artists:'Amir Khan, Hariprasad Chaurasia' },
+  { name:'भैरवी', rom:'Bhairavi', thaat:'Bhairavi', set:[0,1,3,5,7,8,10],
+    time:'Morning (sung last)', season:'—', mood:'Tender, devotional, poignant',
+    desc:'The “queen of ragas”, using all komal swaras. Traditionally concludes a concert with deep emotion.',
+    artists:'Kishori Amonkar, Nikhil Banerjee' },
+  { name:'भूपाली', rom:'Bhoopali', thaat:'Kalyan', set:[0,2,4,7,9],
+    time:'Early night', season:'—', mood:'Serene, sweet, calm',
+    desc:'A pentatonic (audav) raga with no Ma or Ni. Simple, soothing and meditative — a favourite for beginners.',
+    artists:'Kishori Amonkar, Pannalal Ghosh' },
+  { name:'काफ़ी', rom:'Kafi', thaat:'Kafi', set:[0,2,3,5,7,9,10],
+    time:'Late night', season:'Spring (Holi)', mood:'Playful, romantic, earthy',
+    desc:'Uses komal Ga and komal Ni. The basis of many thumris and folk melodies, light and expressive.',
+    artists:'Bhimsen Joshi, Girija Devi' },
+  { name:'बिलावल', rom:'Bilawal', thaat:'Bilawal', set:[0,2,4,5,7,9,11],
+    time:'Morning', season:'—', mood:'Bright, cheerful, stable',
+    desc:'The natural major scale of Hindustani music — all shuddha swaras. Open and joyful in character.',
+    artists:'Omkarnath Thakur, Rashid Khan' },
+  { name:'खमाज', rom:'Khamaj', thaat:'Khamaj', set:[0,2,4,5,7,9,10],
+    time:'Night', season:'—', mood:'Romantic, light, graceful',
+    desc:'Shuddha Ni in ascent, komal Ni in descent. The signature raga of thumri and lighter classical forms.',
+    artists:'Vidushi Girija Devi, Jasraj' },
+  { name:'आसावरी', rom:'Asavari', thaat:'Asavari', set:[0,2,3,5,7,8,10],
+    time:'Late morning', season:'—', mood:'Sober, introspective, pathos',
+    desc:'Komal Ga, Dha and Ni lend gravity and renunciation. Deep and contemplative, drops Ga & Ni in ascent.',
+    artists:'Mallikarjun Mansur, Kesarbai Kerkar' },
+  { name:'तोड़ी', rom:'Todi', thaat:'Todi', set:[0,1,3,6,7,8,11],
+    time:'Late morning', season:'—', mood:'Plaintive, intense, yearning',
+    desc:'Komal Re, Ga, Dha with tivra Ma — a highly emotive, complex morning raga of deep longing.',
+    artists:'Nissar Hussain Khan, Ashwini Bhide' },
+  { name:'मारवा', rom:'Marwa', thaat:'Marwa', set:[0,1,4,6,9,11],
+    time:'Sunset', season:'—', mood:'Restless, mystical, suspenseful',
+    desc:'Komal Re and tivra Ma, with Pa weak or omitted. Creates a haunting tension at twilight.',
+    artists:'Amir Khan, Kishori Amonkar' },
+  { name:'दरबारी कानड़ा', rom:'Darbari Kanada', thaat:'Asavari', set:[0,2,3,5,7,8,10],
+    time:'Late night (midnight)', season:'—', mood:'Majestic, grave, profound',
+    desc:'A grand midnight raga said to be Tansen’s. Heavy oscillations on komal Ga and Dha give immense depth.',
+    artists:'Amir Khan, Bhimsen Joshi' },
+  { name:'बागेश्री', rom:'Bageshri', thaat:'Kafi', set:[0,2,3,5,7,9,10],
+    time:'Late night', season:'—', mood:'Longing, sweetness, union',
+    desc:'A romantic midnight raga of a woman awaiting her beloved. Komal Ga and Ni, Pa used sparingly.',
+    artists:'Nikhil Banerjee, Ravi Shankar' },
+  { name:'मालकौंस', rom:'Malkauns', thaat:'Bhairavi', set:[0,3,5,8,10],
+    time:'Late night / midnight', season:'—', mood:'Meditative, powerful, mysterious',
+    desc:'A pentatonic raga with no Re or Pa — komal Ga, Dha, Ni. Hypnotic and intensely introspective.',
+    artists:'Pt. Jasraj, Hariprasad Chaurasia' },
+  { name:'हंसध्वनि', rom:'Hansadhwani', thaat:'Bilawal', set:[0,2,4,7,11],
+    time:'Night', season:'—', mood:'Bright, devotional, brisk',
+    desc:'A lively pentatonic raga from the Carnatic tradition — Sa Re Ga Pa Ni. Joyful and crisp.',
+    artists:'Rashid Khan, Balamuralikrishna' },
+  { name:'देस', rom:'Des', thaat:'Khamaj', set:[0,2,5,7,9,10,11],
+    time:'Late night', season:'Monsoon', mood:'Romantic, yearning, monsoon',
+    desc:'A melodious monsoon raga (also Desh) associated with patriotism and rain. Komal Ni in descent.',
+    artists:'Vilayat Khan, Girija Devi' },
+];
+
+// ---------- audio state ----------
+let audioCtx=null, analyser=null, micStream=null, rafId=null;
+let listening=false, startTime=0;
+const pcWeights = new Float64Array(12); // accumulated pitch-class energy
+let lastDetectedHz = 0;
+
+// ---------- secure context guard ----------
+function isSecure(){
+  return window.isSecureContext ||
+         location.protocol==='https:' ||
+         location.hostname==='localhost' || location.hostname==='127.0.0.1';
+}
+
+function showPanel(title, html, warn){
+  permTitle.textContent = title;
+  permBody.innerHTML = html;
+  permPanel.classList.remove('hidden');
+  permPanel.classList.toggle('warn', !!warn);
+}
+function hidePanel(){ permPanel.classList.add('hidden'); }
+
+// ---------- THE MIC TAP HANDLER ----------
+// Must call getUserMedia synchronously inside the gesture. No awaits before it.
+function onMicTap(){
+  if (listening){ stopListening(); return; }
+
+  if (!isSecure()){
+    showPanel('Secure connection required',
+      'iOS Safari only allows microphone access over <b>https://</b>.<br><br>' +
+      'You are currently on <code>'+location.protocol+'//'+location.host+'</code>.<br><br>' +
+      '✅ Host this app on <b>GitHub Pages</b> (or any https host) and open that link in Safari — ' +
+      'opening the file directly (file://) or over http will always be blocked.', false);
+    return;
+  }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    showPanel('Microphone not available',
+      'This browser does not expose getUserMedia. On iOS, please use <b>Safari</b> (not an in-app browser like Instagram/Gmail).', false);
+    return;
+  }
+
+  // Create + resume AudioContext inside the gesture (iOS requirement)
+  try{
+    if (!audioCtx){
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended'){ audioCtx.resume(); }
+  }catch(e){ /* ignore */ }
+
+  statusEl.textContent = 'Requesting microphone…';
+  hidePanel();
+
+  // Call getUserMedia IMMEDIATELY — plain promise chain, no await above it.
+  navigator.mediaDevices.getUserMedia({ audio: {
+      echoCancellation:false, noiseSuppression:false, autoGainControl:false
+  }})
+  .then(onMicGranted)
+  .catch(onMicError);
+}
+
+function onMicGranted(stream){
+  micStream = stream;
+  hidePanel();
+  pcWeights.fill(0);
+  results.innerHTML='';
+  const src = audioCtx.createMediaStreamSource(stream);
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 2048;
+  analyser.smoothingTimeConstant = 0.1;
+  src.connect(analyser);
+
+  listening = true;
+  startTime = (audioCtx.currentTime||0);
+  micBtn.classList.add('listening');
+  micBtn.setAttribute('aria-label','Stop listening');
+  live.classList.remove('hidden');
+  saRow.classList.remove('hidden');
+  identifyBtn.classList.remove('hidden');
+  resetBtn.classList.add('hidden');
+  hintEl.textContent = 'Listening… tap “Identify Raga” when ready (or the mic to stop)';
+  loop();
+}
+
+function onMicError(err){
+  micBtn.classList.remove('listening');
+  const name = err && err.name ? err.name : '';
+  if (name==='NotAllowedError' || name==='SecurityError'){
+    statusEl.textContent = 'Microphone permission denied';
+    showPanel('Microphone permission denied',
+      '<b>To allow on iPhone/iPad:</b><br>' +
+      '1. Open <b>Settings → Safari → Microphone</b> → set to <b>Ask</b> or <b>Allow</b><br>' +
+      '2. Or tap the <b>“aA”</b> button in Safari’s address bar → <b>Website Settings → Microphone → Allow</b><br>' +
+      '3. If installed to Home Screen: <b>Settings → रागेश्री → Microphone → On</b><br>' +
+      '4. Reload and tap the mic again.', false);
+  } else if (name==='NotFoundError'){
+    statusEl.textContent = 'No microphone found';
+    showPanel('No microphone found','No audio input device is available on this device.', false);
+  } else {
+    statusEl.textContent = 'Could not access microphone';
+    showPanel('Could not start microphone', (err && err.message ? err.message : 'Unknown error')+'.', false);
+  }
+}
+
+// ---------- pitch detection (autocorrelation) ----------
+const buf = new Float32Array(2048);
+function detectPitch(){
+  analyser.getFloatTimeDomainData(buf);
+  // RMS gate — ignore silence
+  let rms=0; for (let i=0;i<buf.length;i++) rms+=buf[i]*buf[i];
+  rms=Math.sqrt(rms/buf.length);
+  if (rms < 0.008) return -1;
+
+  const SR = audioCtx.sampleRate;
+  const minLag = Math.floor(SR/1000); // up to 1000 Hz
+  const maxLag = Math.floor(SR/70);   // down to 70 Hz
+  let bestLag=-1, bestCorr=0;
+  let lastCorr=1;
+  for (let lag=minLag; lag<=maxLag; lag++){
+    let corr=0;
+    for (let i=0;i<buf.length-lag;i++) corr += buf[i]*buf[i+lag];
+    corr /= (buf.length-lag);
+    if (corr>bestCorr){ bestCorr=corr; bestLag=lag; }
+    // prefer first strong peak after correlation dips
+    if (corr>0.9*bestCorr && corr<lastCorr && bestLag>0){ }
+    lastCorr=corr;
+  }
+  if (bestLag<=0 || bestCorr<0.0015) return -1;
+  // parabolic interpolation around bestLag for finer freq
+  return SR/bestLag;
+}
+
+function hzToMidi(hz){ return 69 + 12*Math.log2(hz/440); }
+
+function loop(){
+  if (!listening){ return; }
+  rafId = requestAnimationFrame(loop);
+
+  // waveform
+  analyser.getFloatTimeDomainData(buf);
+  drawWave(buf);
+
+  const hz = detectPitch();
+  if (hz>0){
+    lastDetectedHz = hz;
+    const midi = hzToMidi(hz);
+    const pc = ((Math.round(midi)%12)+12)%12;
+    // weight by being in vocal/instrument sweet spot; accumulate
+    pcWeights[pc] += 1;
+    noteNow.textContent = NOTE_NAMES[pc];
+    noteHz.textContent = hz.toFixed(1)+' Hz';
+    renderChips();
+  }
+
+  // elapsed
+  const el = Math.max(0,(audioCtx.currentTime - startTime));
+  statusEl.textContent = 'Listening — '+el.toFixed(0)+'s';
+}
+
+function drawWave(data){
+  const ctx = wave.getContext('2d');
+  const W=wave.width, H=wave.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.lineWidth=2; ctx.strokeStyle='#e8c860'; ctx.beginPath();
+  const step=Math.floor(data.length/W) || 1;
+  for (let x=0;x<W;x++){
+    const v=data[x*step]||0; const y=H/2 + v*H*0.9;
+    x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+}
+
+function renderChips(){
+  // show the strongest pitch classes heard so far
+  const max=Math.max(...pcWeights);
+  if (max<=0){ swaraChips.innerHTML=''; return; }
+  const items=[];
+  for (let pc=0;pc<12;pc++){
+    if (pcWeights[pc] > max*0.18) items.push({pc, w:pcWeights[pc]});
+  }
+  items.sort((a,b)=>b.w-a.w);
+  swaraChips.innerHTML = items.map(it=>'<span class="chip">'+NOTE_NAMES[it.pc]+'</span>').join('');
+}
+
+// ---------- analysis / matching ----------
+function presentClasses(){
+  const max=Math.max(...pcWeights);
+  if (max<=0) return null;
+  const present=[]; const w=[];
+  for (let pc=0;pc<12;pc++){
+    const norm=pcWeights[pc]/max;
+    if (norm>0.16){ present.push(pc); w[pc]=norm; }
+  }
+  return {present, w, max};
+}
+
+function scoreForTonic(tonic, pres){
+  // map present classes to semitone offsets from tonic
+  const det=new Set(), wByOff={};
+  let totalW=0;
+  pres.present.forEach(pc=>{
+    const off=((pc-tonic)%12+12)%12;
+    det.add(off); wByOff[off]=pres.w[pc]; totalW+=pres.w[pc];
+  });
+  if (!det.has(0)) return null; // require Sa present-ish
+  return RAGAS.map(r=>{
+    const allow=new Set(r.set);
+    // coverage: weight of detected notes that belong to the raga
+    let inW=0, outW=0;
+    det.forEach(off=>{ (allow.has(off)?(inW+=wByOff[off]):(outW+=wByOff[off])); });
+    const coverage = totalW>0 ? inW/totalW : 0;
+    // completeness: fraction of the raga's notes we actually heard
+    let hit=0; r.set.forEach(off=>{ if(det.has(off)) hit++; });
+    const completeness = hit/r.set.length;
+    // penalty for foreign notes
+    const score = coverage*0.6 + completeness*0.4;
+    return {raga:r, tonic, score, coverage, completeness, det:[...det].sort((a,b)=>a-b)};
+  });
+}
+
+function analyze(){
+  const pres = presentClasses();
+  if (!pres){
+    statusEl.textContent='Not enough melody detected — try again, louder & clearer.';
+    return;
+  }
+  let tonics;
+  if (saSelect.value==='auto'){ tonics=[...Array(12).keys()]; }
+  else { tonics=[parseInt(saSelect.value,10)]; }
+
+  let all=[];
+  tonics.forEach(t=>{ const s=scoreForTonic(t,pres); if(s) all=all.concat(s); });
+  if (!all.length){
+    statusEl.textContent='Could not infer a tonic — try setting Sa manually below.';
+    return;
+  }
+  all.sort((a,b)=>b.score-a.score);
+
+  // de-dup by raga (keep best tonic per raga)
+  const seen=new Set(), top=[];
+  for (const c of all){ if(!seen.has(c.raga.rom)){ seen.add(c.raga.rom); top.push(c); } if(top.length>=3) break; }
+  renderResults(top);
+}
+
+function renderResults(top){
+  results.innerHTML='';
+  const best=top[0];
+  statusEl.textContent = 'Best match: '+best.raga.name+' ('+best.raga.rom+')';
+  top.forEach((c,i)=>{
+    const r=c.raga;
+    const conf=Math.round(c.score*100);
+    const swaras = c.det.map(o=>SWARA[o]).join('  ');
+    const saName = NOTE_NAMES[c.tonic];
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML =
+      '<div class="rank">'+(i===0?'Most likely':'Alternative '+i)+' · '+conf+'% fit · Sa = '+saName+'</div>'+
+      '<div class="rname">'+r.name+'</div>'+
+      '<div class="rrom">'+r.rom+'</div>'+
+      '<div class="conf"><div style="width:'+conf+'%"></div></div>'+
+      '<div class="meta">'+
+        '<div><b>Thaat:</b> '+r.thaat+'</div>'+
+        '<div><b>Time:</b> '+r.time+'</div>'+
+        '<div><b>Mood:</b> '+r.mood+'</div>'+
+        '<div><b>Season:</b> '+r.season+'</div>'+
+      '</div>'+
+      '<div class="meta" style="grid-template-columns:1fr"><div><b>Swaras heard:</b> '+swaras+'</div></div>'+
+      (i===0?'<div class="desc">'+r.desc+'</div><div class="artists">Notable artists: '+r.artists+'</div>':'')+
+      '';
+    results.appendChild(card);
+  });
+  results.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ---------- stop / reset ----------
+function stopListening(){
+  listening=false;
+  micBtn.classList.remove('listening');
+  micBtn.setAttribute('aria-label','Start listening');
+  if (rafId) cancelAnimationFrame(rafId);
+  if (micStream){ micStream.getTracks().forEach(t=>t.stop()); micStream=null; }
+  identifyBtn.classList.add('hidden');
+  resetBtn.classList.remove('hidden');
+  hintEl.textContent='Tap “Listen Again” to analyse a new melody';
+  analyze();
+}
+
+function resetAll(){
+  results.innerHTML='';
+  pcWeights.fill(0);
+  noteNow.textContent='–'; noteHz.textContent=''; swaraChips.innerHTML='';
+  live.classList.add('hidden'); saRow.classList.add('hidden');
+  resetBtn.classList.add('hidden'); identifyBtn.classList.add('hidden');
+  statusEl.textContent='Tap the mic to listen';
+  hintEl.textContent='Play, sing, or hum a melody for ~15 seconds';
+}
+
+// ---------- events (touchend primary for iOS, click fallback) ----------
+let tapGuard=0;
+function guardedTap(e){
+  e.preventDefault();
+  const now=Date.now();
+  if (now-tapGuard<400) return; // prevent double-fire (touch + click)
+  tapGuard=now;
+  onMicTap();
+}
+micBtn.addEventListener('touchend', guardedTap, {passive:false});
+micBtn.addEventListener('click', guardedTap);
+
+identifyBtn.addEventListener('click', ()=>{ if(listening) stopListening(); });
+resetBtn.addEventListener('click', resetAll);
+
+// ---------- install banner (hide if already standalone) ----------
+(function(){
+  const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (!standalone && isIOS){
+    installBanner.classList.remove('hidden');
+  }
+  document.getElementById('installX').addEventListener('click', ()=>installBanner.classList.add('hidden'));
+})();
+
+// ---------- inline manifest (Blob) so it installs without separate files ----------
+(function(){
+  try{
+    const icon = document.querySelector('link[rel=\"apple-touch-icon\"]').href;
+    const manifest = {
+      name:'\u0930\u093e\u0917\u0947\u0936\u094d\u0930\u0940 \u2014 Raga Identifier',
+      short_name:'\u0930\u093e\u0917\u0947\u0936\u094d\u0930\u0940',
+      start_url:'.', scope:'.', display:'standalone',
+      background_color:'#1a0b2e', theme_color:'#1a0b2e',
+      icons:[{src:icon, sizes:'192x192', type:'image/png', purpose:'any'},
+             {src:icon, sizes:'192x192', type:'image/png', purpose:'maskable'}]
+    };
+    const url = URL.createObjectURL(new Blob([JSON.stringify(manifest)], {type:'application/json'}));
+    const l = document.createElement('link'); l.rel='manifest'; l.href=url;
+    document.head.appendChild(l);
+  }catch(e){}
+})();
+// No service worker in single-file mode (offline caching omitted); the app and
+// microphone work fully over HTTPS. iOS Add-to-Home-Screen uses the meta tags above.
+</script>
+</body>
+</html>
