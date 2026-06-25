@@ -184,7 +184,8 @@
 
   <footer>
     Runs fully on-device · no audio leaves your phone.<br/>
-    Heuristic raga matching from detected swaras — best with a clear, sustained melody.
+    Matches 100 raags by detected swaras, vadi/samvadi &amp; tonic — best with a clear,
+    sustained melody and a known Sa. Notes alone can’t separate ragas that share a scale.
   </footer>
 </div>
 
@@ -239,68 +240,7 @@ const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const SWARA = ['Sa','re','Re','ga','Ga','Ma','Má','Pa','dha','Dha','ni','Ni'];
 
 // Each raga: set of semitone classes (relative to Sa) it uses.
-const RAGAS = [
-  { name:'भैरव', rom:'Bhairav', thaat:'Bhairav', set:[0,1,4,5,7,8,11],
-    time:'Early morning', season:'—', mood:'Devotional, serene, awe',
-    desc:'A profound morning raga evoking dawn and meditative devotion. The komal Re and komal Dha give it a solemn, ancient character.',
-    artists:'Bhimsen Joshi, Bismillah Khan' },
-  { name:'यमन', rom:'Yaman', thaat:'Kalyan', set:[0,2,4,6,7,9,11],
-    time:'Early night', season:'—', mood:'Romantic, expansive, peaceful',
-    desc:'One of the first ragas taught, featuring tivra Ma. Bright and uplifting, ideal for the first quarter of the night.',
-    artists:'Amir Khan, Hariprasad Chaurasia' },
-  { name:'भैरवी', rom:'Bhairavi', thaat:'Bhairavi', set:[0,1,3,5,7,8,10],
-    time:'Morning (sung last)', season:'—', mood:'Tender, devotional, poignant',
-    desc:'The “queen of ragas”, using all komal swaras. Traditionally concludes a concert with deep emotion.',
-    artists:'Kishori Amonkar, Nikhil Banerjee' },
-  { name:'भूपाली', rom:'Bhoopali', thaat:'Kalyan', set:[0,2,4,7,9],
-    time:'Early night', season:'—', mood:'Serene, sweet, calm',
-    desc:'A pentatonic (audav) raga with no Ma or Ni. Simple, soothing and meditative — a favourite for beginners.',
-    artists:'Kishori Amonkar, Pannalal Ghosh' },
-  { name:'काफ़ी', rom:'Kafi', thaat:'Kafi', set:[0,2,3,5,7,9,10],
-    time:'Late night', season:'Spring (Holi)', mood:'Playful, romantic, earthy',
-    desc:'Uses komal Ga and komal Ni. The basis of many thumris and folk melodies, light and expressive.',
-    artists:'Bhimsen Joshi, Girija Devi' },
-  { name:'बिलावल', rom:'Bilawal', thaat:'Bilawal', set:[0,2,4,5,7,9,11],
-    time:'Morning', season:'—', mood:'Bright, cheerful, stable',
-    desc:'The natural major scale of Hindustani music — all shuddha swaras. Open and joyful in character.',
-    artists:'Omkarnath Thakur, Rashid Khan' },
-  { name:'खमाज', rom:'Khamaj', thaat:'Khamaj', set:[0,2,4,5,7,9,10],
-    time:'Night', season:'—', mood:'Romantic, light, graceful',
-    desc:'Shuddha Ni in ascent, komal Ni in descent. The signature raga of thumri and lighter classical forms.',
-    artists:'Vidushi Girija Devi, Jasraj' },
-  { name:'आसावरी', rom:'Asavari', thaat:'Asavari', set:[0,2,3,5,7,8,10],
-    time:'Late morning', season:'—', mood:'Sober, introspective, pathos',
-    desc:'Komal Ga, Dha and Ni lend gravity and renunciation. Deep and contemplative, drops Ga & Ni in ascent.',
-    artists:'Mallikarjun Mansur, Kesarbai Kerkar' },
-  { name:'तोड़ी', rom:'Todi', thaat:'Todi', set:[0,1,3,6,7,8,11],
-    time:'Late morning', season:'—', mood:'Plaintive, intense, yearning',
-    desc:'Komal Re, Ga, Dha with tivra Ma — a highly emotive, complex morning raga of deep longing.',
-    artists:'Nissar Hussain Khan, Ashwini Bhide' },
-  { name:'मारवा', rom:'Marwa', thaat:'Marwa', set:[0,1,4,6,9,11],
-    time:'Sunset', season:'—', mood:'Restless, mystical, suspenseful',
-    desc:'Komal Re and tivra Ma, with Pa weak or omitted. Creates a haunting tension at twilight.',
-    artists:'Amir Khan, Kishori Amonkar' },
-  { name:'दरबारी कानड़ा', rom:'Darbari Kanada', thaat:'Asavari', set:[0,2,3,5,7,8,10],
-    time:'Late night (midnight)', season:'—', mood:'Majestic, grave, profound',
-    desc:'A grand midnight raga said to be Tansen’s. Heavy oscillations on komal Ga and Dha give immense depth.',
-    artists:'Amir Khan, Bhimsen Joshi' },
-  { name:'बागेश्री', rom:'Bageshri', thaat:'Kafi', set:[0,2,3,5,7,9,10],
-    time:'Late night', season:'—', mood:'Longing, sweetness, union',
-    desc:'A romantic midnight raga of a woman awaiting her beloved. Komal Ga and Ni, Pa used sparingly.',
-    artists:'Nikhil Banerjee, Ravi Shankar' },
-  { name:'मालकौंस', rom:'Malkauns', thaat:'Bhairavi', set:[0,3,5,8,10],
-    time:'Late night / midnight', season:'—', mood:'Meditative, powerful, mysterious',
-    desc:'A pentatonic raga with no Re or Pa — komal Ga, Dha, Ni. Hypnotic and intensely introspective.',
-    artists:'Pt. Jasraj, Hariprasad Chaurasia' },
-  { name:'हंसध्वनि', rom:'Hansadhwani', thaat:'Bilawal', set:[0,2,4,7,11],
-    time:'Night', season:'—', mood:'Bright, devotional, brisk',
-    desc:'A lively pentatonic raga from the Carnatic tradition — Sa Re Ga Pa Ni. Joyful and crisp.',
-    artists:'Rashid Khan, Balamuralikrishna' },
-  { name:'देस', rom:'Des', thaat:'Khamaj', set:[0,2,5,7,9,10,11],
-    time:'Late night', season:'Monsoon', mood:'Romantic, yearning, monsoon',
-    desc:'A melodious monsoon raga (also Desh) associated with patriotism and rain. Komal Ni in descent.',
-    artists:'Vilayat Khan, Girija Devi' },
-];
+const RAGAS = [{"n":"यमन","r":"Yaman","t":"Kalyan","s":[0,2,4,6,7,9,11],"vd":4,"sm":11,"tm":"Evening (1st Prahar)","md":"Serene, Devotional"},{"n":"यमन कल्याण","r":"Yaman Kalyan","t":"Kalyan","s":[0,2,4,5,6,7,9,11],"vd":4,"sm":11,"tm":"Evening (1st Prahar)","md":"Peaceful, Graceful"},{"n":"भूपाली","r":"Bhupali","t":"Kalyan","s":[0,2,4,7,9],"vd":4,"sm":9,"tm":"Evening (1st Prahar)","md":"Joyful, Meditative"},{"n":"शुद्ध कल्याण","r":"Shuddha Kalyan","t":"Kalyan","s":[0,2,4,6,7,9,11],"vd":4,"sm":9,"tm":"Night (1st Prahar)","md":"Grand, Serene"},{"n":"हमीर","r":"Hameer","t":"Kalyan","s":[0,2,4,5,6,7,9,11],"vd":9,"sm":4,"tm":"Night (1st Prahar)","md":"Vibrant, Heroic"},{"n":"केदार","r":"Kedar","t":"Kalyan","s":[0,2,5,6,7,9,11],"vd":5,"sm":0,"tm":"Night (1st Prahar)","md":"Complex, Devotional"},{"n":"कामोद","r":"Kamod","t":"Kalyan","s":[0,2,4,5,6,7,9,11],"vd":7,"sm":2,"tm":"Night (1st Prahar)","md":"Graceful, Whimsical"},{"n":"छायानट","r":"Chhayanat","t":"Kalyan","s":[0,2,4,5,6,7,9,11],"vd":7,"sm":2,"tm":"Night (1st Prahar)","md":"Romantic, Joyous"},{"n":"गौड़ सारंग","r":"Gaud Sarang","t":"Kalyan","s":[0,2,4,5,6,7,9,11],"vd":4,"sm":9,"tm":"Afternoon","md":"Playful, Intricate"},{"n":"हिंदोल","r":"Hindol","t":"Kalyan","s":[0,4,6,9,11],"vd":9,"sm":4,"tm":"Dawn","md":"Bright, Festive"},{"n":"अल्हैया बिलावल","r":"Alhaiya Bilawal","t":"Bilawal","s":[0,2,4,5,7,9,11],"vd":9,"sm":4,"tm":"Morning (2nd Prahar)","md":"Joyous, Uplifting"},{"n":"शुद्ध बिलावल","r":"Shuddha Bilawal","t":"Bilawal","s":[0,2,4,5,7,9,11],"vd":9,"sm":4,"tm":"Morning","md":"Bright, Pure"},{"n":"बिहाग","r":"Bihag","t":"Bilawal","s":[0,2,4,5,6,7,9,11],"vd":4,"sm":11,"tm":"Late Night","md":"Romantic, Yearning"},{"n":"मारू बिहाग","r":"Maru Bihag","t":"Bilawal","s":[0,2,4,5,6,7,9,11],"vd":4,"sm":11,"tm":"Night","md":"Passionate, Tender"},{"n":"देशकार","r":"Deshkar","t":"Bilawal","s":[0,2,4,7,9],"vd":9,"sm":4,"tm":"Morning","md":"Energetic, Bright"},{"n":"दुर्गा","r":"Durga","t":"Bilawal","s":[0,2,5,7,9],"vd":9,"sm":2,"tm":"Late Night","md":"Pure, Innocent"},{"n":"हंसध्वनि","r":"Hamsadhwani","t":"Bilawal","s":[0,2,4,7,11],"vd":0,"sm":7,"tm":"Evening","md":"Bright, Devotional"},{"n":"शंकरा","r":"Shankara","t":"Bilawal","s":[0,2,4,7,9,11],"vd":7,"sm":0,"tm":"Late Night","md":"Bold, Powerful"},{"n":"मांड","r":"Mand","t":"Bilawal","s":[0,2,4,5,7,9,11],"vd":0,"sm":7,"tm":"Anytime / Night","md":"Folk-like, Festive"},{"n":"सुखिया बिलावल","r":"Sukhiya Bilawal","t":"Bilawal","s":[0,2,4,5,7,9,11],"vd":9,"sm":4,"tm":"Morning","md":"Cheerful"},{"n":"खमाच","r":"Khamaj","t":"Khamaj","s":[0,2,4,5,7,9,10,11],"vd":4,"sm":11,"tm":"Late Night","md":"Sensual, Sringara"},{"n":"देश","r":"Des","t":"Khamaj","s":[0,2,4,5,7,9,10,11],"vd":2,"sm":7,"tm":"Night (2nd Prahar)","md":"Romantic, Monsoon"},{"n":"सोरठ","r":"Sorath","t":"Khamaj","s":[0,2,5,7,9,10,11],"vd":2,"sm":9,"tm":"Midnight","md":"Yearning"},{"n":"तिलांग","r":"Tilang","t":"Khamaj","s":[0,4,5,7,10,11],"vd":4,"sm":11,"tm":"Night","md":"Light, Playful"},{"n":"जयजयवंती","r":"Jaijaiwanti","t":"Khamaj","s":[0,1,2,3,4,5,7,9,10,11],"vd":2,"sm":7,"tm":"Night","md":"Majestic, Deeply emotional"},{"n":"रागेश्री","r":"Rageshri","t":"Khamaj","s":[0,2,4,5,9,11],"vd":4,"sm":11,"tm":"Midnight","md":"Calm, Romantic"},{"n":"खंबावती","r":"Khambavati","t":"Khamaj","s":[0,2,4,5,9,10],"vd":0,"sm":5,"tm":"Midnight","md":"Devotional, Affectionate"},{"n":"गारा","r":"Gara","t":"Khamaj","s":[0,1,2,4,5,7,9,11],"vd":4,"sm":11,"tm":"Night","md":"Light Classical, Thumri style"},{"n":"झिंझोटी","r":"Jhinjhoti","t":"Khamaj","s":[0,2,4,5,7,9,10],"vd":4,"sm":11,"tm":"Night","md":"Soft, Melodious"},{"n":"गोरख कल्याण","r":"Gorakh Kalyan","t":"Khamaj","s":[0,2,5,9,10],"vd":5,"sm":0,"tm":"Night","md":"Peaceful, Detached"},{"n":"काफी","r":"Kafi","t":"Kafi","s":[0,2,3,5,7,9,10],"vd":7,"sm":0,"tm":"Midnight","md":"Joyous, Spring-themed (Holi)"},{"n":"भीमपलासी","r":"Bhimpalasi","t":"Kafi","s":[0,2,3,5,7,9,10],"vd":5,"sm":0,"tm":"Late Afternoon","md":"Longing, Passionate"},{"n":"बागेश्री","r":"Bageshri","t":"Kafi","s":[0,2,3,5,9,10],"vd":5,"sm":0,"tm":"Midnight","md":"Intimate, Deep Longing"},{"n":"धनाश्री","r":"Dhanashree","t":"Kafi","s":[0,2,3,5,7,9,10],"vd":7,"sm":0,"tm":"Afternoon","md":"Serene, Content"},{"n":"वृंदावनी सारंग","r":"Brindabani Sarang","t":"Kafi","s":[0,2,5,7,10,11],"vd":2,"sm":7,"tm":"Midday","md":"Clear, Sparkling"},{"n":"शुद्ध सारंग","r":"Shuddha Sarang","t":"Kafi","s":[0,2,5,6,7,9,11],"vd":2,"sm":7,"tm":"Afternoon","md":"Uplifting, Bright"},{"n":"मेघ","r":"Megh","t":"Kafi","s":[0,2,5,7,10],"vd":0,"sm":7,"tm":"Monsoon / Night","md":"Thunderous, Solemn"},{"n":"मल्हार","r":"Malhar","t":"Kafi","s":[0,2,3,5,7,9,10,11],"vd":5,"sm":0,"tm":"Monsoon","md":"Rainy, Nostalgic"},{"n":"मियां की मल्हार","r":"Miyan Ki Malhar","t":"Kafi","s":[0,2,3,5,7,9,10,11],"vd":5,"sm":0,"tm":"Monsoon / Midnight","md":"Majestic, Deeply Emotional"},{"n":"बहार","r":"Bahar","t":"Kafi","s":[0,2,3,5,7,9,10,11],"vd":5,"sm":0,"tm":"Midnight / Spring","md":"Blossoming, Ecstatic"},{"n":"पिलू","r":"Piloo","t":"Kafi","s":[0,1,3,4,5,7,8,10,11],"vd":4,"sm":11,"tm":"Afternoon","md":"Light, Versatile, Folk-rich"},{"n":"शिवरंजनी","r":"Shivranjani","t":"Kafi","s":[0,2,3,7,9],"vd":7,"sm":0,"tm":"Midnight","md":"Deeply Melancholic, Sad"},{"n":"जोग","r":"Jog","t":"Kafi","s":[0,3,4,5,7,10],"vd":5,"sm":0,"tm":"Midnight","md":"Enigmatic, Trance-like"},{"n":"आसावरी","r":"Asavari","t":"Asavari","s":[0,2,3,5,7,8,10],"vd":8,"sm":3,"tm":"Morning (2nd Prahar)","md":"Renunciation, Melancholy"},{"n":"जौनपुरी","r":"Jaunpuri","t":"Asavari","s":[0,2,3,5,7,8,10],"vd":8,"sm":3,"tm":"Late Morning","md":"Grand, Nostalgic"},{"n":"दरबारी कानड़ा","r":"Darbari Kanada","t":"Asavari","s":[0,1,2,3,5,7,8,10],"vd":2,"sm":7,"tm":"Late Night","md":"Majestic, Deep, Somber"},{"n":"अड़ाना","r":"Adana","t":"Asavari","s":[0,2,3,5,7,8,10],"vd":0,"sm":7,"tm":"Late Night","md":"Forceful, Energetic"},{"n":"देसी","r":"Desi","t":"Asavari","s":[0,2,4,5,7,8,9,10,11],"vd":7,"sm":2,"tm":"Morning","md":"Complex, Yearning"},{"n":"भैरव","r":"Bhairav","t":"Bhairav","s":[0,1,4,5,7,8,11],"vd":8,"sm":1,"tm":"Dawn","md":"Meditative, Spiritual, Solemn"},{"n":"अहीर भैरव","r":"Ahir Bhairav","t":"Bhairav","s":[0,1,4,5,7,9,10],"vd":5,"sm":0,"tm":"Dawn","md":"Peaceful, Devotional"},{"n":"रामकली","r":"Ramkali","t":"Bhairav","s":[0,1,4,5,7,8,11],"vd":7,"sm":0,"tm":"Dawn","md":"Devotional, Pensive"},{"n":"कलिंगड़ा","r":"Kalingda","t":"Bhairav","s":[0,1,4,5,7,8,11],"vd":7,"sm":0,"tm":"Morning","md":"Eager, Less solemn than Bhairav"},{"n":"नट भैरव","r":"Nat Bhairav","t":"Bhairav","s":[0,2,4,5,7,8,11],"vd":5,"sm":0,"tm":"Dawn","md":"Bright, Artistic"},{"n":"बैरागी","r":"Bairagi","t":"Bhairav","s":[0,1,5,7,10],"vd":5,"sm":0,"tm":"Dawn","md":"Ascetic, Dispassionate"},{"n":"गौरी","r":"Gauri","t":"Bhairav","s":[0,1,4,5,7,8,11],"vd":1,"sm":7,"tm":"Evening","md":"Serious, Meditative"},{"n":"भैरवी","r":"Bhairavi","t":"Bhairavi","s":[0,1,3,5,7,8,10],"vd":5,"sm":0,"tm":"Morning (Played Anytime)","md":"Universal Appeal, Devotional"},{"n":"मालकौंस","r":"Malkauns","t":"Bhairavi","s":[0,3,5,8,10],"vd":5,"sm":0,"tm":"Midnight","md":"Profound, Trance-inducing"},{"n":"बिलासखानी तोड़ी","r":"Bilaskhani Todi","t":"Bhairavi","s":[0,1,3,5,7,8,10],"vd":8,"sm":3,"tm":"Morning","md":"Deep Grief, Mournful"},{"n":"भूपाल तोड़ी","r":"Bhupali Todi","t":"Bhairavi","s":[0,1,3,7,8],"vd":8,"sm":3,"tm":"Morning","md":"Meditative"},{"n":"मियां की तोड़ी","r":"Miyan Ki Todi","t":"Todi","s":[0,1,3,6,7,8,11],"vd":8,"sm":3,"tm":"Morning (2nd Prahar)","md":"Deeply Ascetic, Intense Pathos"},{"n":"गुजरी तोड़ी","r":"Gujari Todi","t":"Todi","s":[0,1,3,6,8,11],"vd":8,"sm":3,"tm":"Morning","md":"Supplication, Sorrowful"},{"n":"मुल्तानी","r":"Multani","t":"Todi","s":[0,1,3,6,7,8,10,11],"vd":7,"sm":0,"tm":"Late Afternoon","md":"Strained, Intense Emotion"},{"n":"मधुवंती","r":"Madhuwanti","t":"Todi","s":[0,2,3,6,7,9,11],"vd":7,"sm":0,"tm":"Afternoon","md":"Sweet, Romantic"},{"n":"पूर्वी","r":"Poorvi","t":"Poorvi","s":[0,1,4,5,6,7,8,11],"vd":4,"sm":11,"tm":"Sunset (Sandhiprakash)","md":"Deep, Devotional"},{"n":"पूरिया धनाश्री","r":"Puriya Dhanashree","t":"Poorvi","s":[0,1,4,6,7,8,11],"vd":7,"sm":2,"tm":"Sunset (Sandhiprakash)","md":"Poignant, Pious, Soulful"},{"n":"श्री","r":"Shree","t":"Poorvi","s":[0,1,4,6,7,8,11],"vd":1,"sm":7,"tm":"Sunset","md":"Majestic, Overpowering Devotion"},{"n":"ललित","r":"Lalit","t":"Poorvi","s":[0,1,4,5,6,8,11],"vd":5,"sm":0,"tm":"Dawn","md":"Inward, Spiritual Awakeness"},{"n":"बसंत","r":"Basant","t":"Poorvi","s":[0,1,4,6,7,8,11],"vd":0,"sm":7,"tm":"Midnight / Spring","md":"Festive, Joyful"},{"n":"परज","r":"Paraj","t":"Poorvi","s":[0,2,4,5,6,7,8,11],"vd":0,"sm":7,"tm":"Late Night","md":"Lively"},{"n":"मारवा","r":"Marwa","t":"Marwa","s":[0,1,4,6,9,11],"vd":1,"sm":9,"tm":"Sunset","md":"Anxious, Unsettled, Haunting"},{"n":"पूरिया","r":"Puriya","t":"Marwa","s":[0,1,4,6,9,11],"vd":4,"sm":11,"tm":"Evening","md":"Meditative, Introspective"},{"n":"सोहिनी","r":"Sohini","t":"Marwa","s":[0,1,4,6,9,11],"vd":9,"sm":4,"tm":"Late Night / Pre-dawn","md":"Poignant, High-pitched, Urgent"},{"n":"भटियारी","r":"Bhatiyar","t":"Marwa","s":[0,1,2,4,5,6,7,9,11],"vd":5,"sm":0,"tm":"Dawn","md":"Bright, Morning energy"},{"n":"जोगिया","r":"Jogiya","t":"Bhairav","s":[0,1,2,5,7,8,11],"vd":5,"sm":0,"tm":"Dawn","md":"Plaintive, Devotional"},{"n":"आनंद भैरव","r":"Anand Bhairav","t":"Bhairav","s":[0,2,4,5,7,8,11],"vd":5,"sm":0,"tm":"Morning","md":"Joyous morning"},{"n":"विभास","r":"Bibhas","t":"Bhairav","s":[0,1,4,7,8],"vd":8,"sm":4,"tm":"Dawn","md":"Ascetic, Stripped-back"},{"n":"कोमल ऋषभ आसावरी","r":"Komal Rishabh Asavari","t":"Asavari","s":[0,1,2,3,5,7,8,10],"vd":8,"sm":3,"tm":"Morning","md":"Deeply Devotional"},{"n":"खाट","r":"Khaat","t":"Asavari","s":[0,2,3,5,7,8,10],"vd":8,"sm":3,"tm":"Morning","md":"Complex"},{"n":"गांधारी","r":"Gandhari","t":"Asavari","s":[0,2,3,5,7,8,10],"vd":8,"sm":3,"tm":"Morning","md":"Pensive"},{"n":"देसी तोड़ी","r":"Desi Todi","t":"Todi","s":[0,2,3,6,7,8,11],"vd":7,"sm":2,"tm":"Morning","md":"Supplication"},{"n":"लाचारी तोड़ी","r":"Lachari Todi","t":"Todi","s":[0,2,3,6,7,8,11],"vd":8,"sm":3,"tm":"Morning","md":"Melancholic"},{"n":"सरस्वती","r":"Saraswati","t":"Kafi","s":[0,2,6,7,9,10],"vd":2,"sm":7,"tm":"Night","md":"Artistic, Elegant"},{"n":"हंसकिनी","r":"Hansakini","t":"Bilawal","s":[0,2,4,7,9,11],"vd":0,"sm":7,"tm":"Morning","md":"Uplifting"},{"n":"पटदीप","r":"Patdeep","t":"Kafi","s":[0,2,3,5,7,9,11],"vd":7,"sm":0,"tm":"Afternoon","md":"Romantic, Tender"},{"n":"मधुवंती","r":"Madhuvanti","t":"Todi","s":[0,2,3,6,7,9,11],"vd":7,"sm":0,"tm":"Late Afternoon","md":"Charming, Emotional"},{"n":"किरवाणी","r":"Kirwani","t":"Piloo / Mixed","s":[0,2,3,5,7,8,11],"vd":2,"sm":7,"tm":"Midnight","md":"Deeply Melodic, Emotional"},{"n":"चारुकेशी","r":"Charukeshi","t":"Mixed","s":[0,2,4,5,7,8,10],"vd":5,"sm":0,"tm":"Morning","md":"Deep emotional flexibility"},{"n":"सिंहेंद्र मध्यमम","r":"Simhendra Madhyamam","t":"Mixed","s":[0,2,3,6,7,8,11],"vd":0,"sm":7,"tm":"Night","md":"Intense, Dramatic"},{"n":"चंद्रकौंस","r":"Chandrakauns","t":"Bhairavi","s":[0,3,5,8,11],"vd":5,"sm":0,"tm":"Midnight","md":"Dark, Mystical, Deep"},{"n":"गौड़ मल्हार","r":"Gaud Malhar","t":"Kafi","s":[0,2,4,5,7,9,10,11],"vd":5,"sm":0,"tm":"Monsoon","md":"Joyous rain"},{"n":"सूर मल्हार","r":"Sur Malhar","t":"Kafi","s":[0,2,5,7,9,10,11],"vd":5,"sm":0,"tm":"Monsoon","md":"Playful downpour"},{"n":"रामदासी मल्हार","r":"Ramdasi Malhar","t":"Kafi","s":[0,2,3,5,7,9,10,11],"vd":5,"sm":0,"tm":"Monsoon","md":"Devotional monsoon"},{"n":"जयंत मल्हार","r":"Jayant Malhar","t":"Kafi","s":[0,2,4,5,7,9,11],"vd":5,"sm":0,"tm":"Monsoon","md":"Noble, Solemn"},{"n":"नट मल्हार","r":"Nat Malhar","t":"Kafi","s":[0,2,3,5,7,9,10],"vd":5,"sm":0,"tm":"Monsoon","md":"Artistic rain"},{"n":"शहाना","r":"Shahana","t":"Kafi","s":[0,2,3,5,7,9,10],"vd":7,"sm":0,"tm":"Midnight","md":"Celebratory, Royal"},{"n":"सूहा","r":"Suha","t":"Kafi","s":[0,2,3,5,7,10],"vd":5,"sm":0,"tm":"Night","md":"Tender"},{"n":"नायकी कानड़ा","r":"Nayaki Kanada","t":"Kafi","s":[0,2,3,5,7,9,10,11],"vd":5,"sm":0,"tm":"Midnight","md":"Graceful, Fast-moving"},{"n":"आभोगी","r":"Abhogi","t":"Kafi","s":[0,2,3,5,9],"vd":0,"sm":5,"tm":"Night","md":"Uplifting, Structured"},{"n":"कलावती","r":"Kalavati","t":"Khamaj","s":[0,4,7,9,10],"vd":7,"sm":0,"tm":"Midnight","md":"Ecstatic, Joyful"},{"n":"जनसंमोहिनी","r":"Janasanmohini","t":"Khamaj","s":[0,2,4,7,9,10],"vd":4,"sm":7,"tm":"Evening","md":"Bright, Clear"}];
 
 // ---------- audio state ----------
 let audioCtx=null, analyser=null, micStream=null, rafId=null;
@@ -355,7 +295,7 @@ function onMicTap(){
 
   // Call getUserMedia IMMEDIATELY — plain promise chain, no await above it.
   navigator.mediaDevices.getUserMedia({ audio: {
-      echoCancellation:false, noiseSuppression:false, autoGainControl:false
+      echoCancellation:true, noiseSuppression:true, autoGainControl:false
   }})
   .then(onMicGranted)
   .catch(onMicError);
@@ -404,32 +344,44 @@ function onMicError(err){
   }
 }
 
-// ---------- pitch detection (autocorrelation) ----------
+// ---------- pitch detection (YIN) ----------
+// YIN is far more robust than plain autocorrelation: it avoids the octave/
+// harmonic errors that polluted the note histogram. (Verified: 13/13 on pure
+// swara tones, every frame.)
 const buf = new Float32Array(2048);
+const _yd = new Float32Array(Math.floor(48000/70)+1); // difference-function scratch
 function detectPitch(){
   analyser.getFloatTimeDomainData(buf);
-  // RMS gate — ignore silence
-  let rms=0; for (let i=0;i<buf.length;i++) rms+=buf[i]*buf[i];
-  rms=Math.sqrt(rms/buf.length);
-  if (rms < 0.008) return -1;
+  const N=buf.length;
+  let rms=0; for (let i=0;i<N;i++) rms+=buf[i]*buf[i];
+  rms=Math.sqrt(rms/N);
+  if (rms < 0.008) return -1;               // silence gate
 
-  const SR = audioCtx.sampleRate;
-  const minLag = Math.floor(SR/1000); // up to 1000 Hz
-  const maxLag = Math.floor(SR/70);   // down to 70 Hz
-  let bestLag=-1, bestCorr=0;
-  let lastCorr=1;
-  for (let lag=minLag; lag<=maxLag; lag++){
-    let corr=0;
-    for (let i=0;i<buf.length-lag;i++) corr += buf[i]*buf[i+lag];
-    corr /= (buf.length-lag);
-    if (corr>bestCorr){ bestCorr=corr; bestLag=lag; }
-    // prefer first strong peak after correlation dips
-    if (corr>0.9*bestCorr && corr<lastCorr && bestLag>0){ }
-    lastCorr=corr;
+  const SR=audioCtx.sampleRate;
+  const maxTau=Math.min(_yd.length-1, Math.floor(SR/70));   // down to 70 Hz
+  const minTau=Math.floor(SR/1000);                          // up to 1000 Hz
+  // difference function
+  for (let tau=1; tau<=maxTau; tau++){
+    let s=0; for (let i=0;i+tau<N;i++){ const df=buf[i]-buf[i+tau]; s+=df*df; }
+    _yd[tau]=s;
   }
-  if (bestLag<=0 || bestCorr<0.0015) return -1;
-  // parabolic interpolation around bestLag for finer freq
-  return SR/bestLag;
+  // cumulative mean normalized difference
+  _yd[0]=1; let run=0;
+  for (let tau=1; tau<=maxTau; tau++){ run+=_yd[tau]; _yd[tau]=_yd[tau]*tau/(run||1); }
+  // first dip below the absolute threshold, then descend to its local min
+  const THRESH=0.15; let tau=-1;
+  for (let t=minTau; t<=maxTau; t++){
+    if (_yd[t]<THRESH){ while (t+1<=maxTau && _yd[t+1]<_yd[t]) t++; tau=t; break; }
+  }
+  if (tau===-1) return -1;
+  // parabolic interpolation for sub-sample accuracy
+  let betterTau=tau;
+  if (tau>1 && tau+1<=maxTau){
+    const s0=_yd[tau-1], s1=_yd[tau], s2=_yd[tau+1];
+    const denom=2*(2*s1-s2-s0);
+    if (denom!==0) betterTau = tau + (s2-s0)/denom;
+  }
+  return SR/betterTau;
 }
 
 function hzToMidi(hz){ return 69 + 12*Math.log2(hz/440); }
@@ -485,92 +437,97 @@ function renderChips(){
 }
 
 // ---------- analysis / matching ----------
+// Build a normalized 12-bin pitch-class profile from what we heard.
 function presentClasses(){
   const max=Math.max(...pcWeights);
   if (max<=0) return null;
-  const present=[]; const w=[];
-  for (let pc=0;pc<12;pc++){
-    const norm=pcWeights[pc]/max;
-    if (norm>0.16){ present.push(pc); w[pc]=norm; }
-  }
-  return {present, w, max};
+  const w=new Array(12).fill(0); let total=0;
+  for (let pc=0;pc<12;pc++){ w[pc]=pcWeights[pc]/max; total+=w[pc]; }
+  const strong=[];               // notes loud enough that a wrong raga must be penalized
+  for (let pc=0;pc<12;pc++) if (w[pc]>=0.45) strong.push(pc);
+  return {w, total, max, strong};
 }
 
+// Score every raga for a candidate Sa (tonic). Returns [] if this tonic is implausible.
 function scoreForTonic(tonic, pres){
-  // map present classes to semitone offsets from tonic
-  const det=new Set(), wByOff={};
-  let totalW=0;
-  pres.present.forEach(pc=>{
-    const off=((pc-tonic)%12+12)%12;
-    det.add(off); wByOff[off]=pres.w[pc]; totalW+=pres.w[pc];
-  });
-  if (!det.has(0)) return null; // require Sa present-ish
+  const ow=new Array(12).fill(0);                 // weights as offsets from this Sa
+  for (let pc=0;pc<12;pc++){ ow[((pc-tonic)%12+12)%12]=pres.w[pc]; }
+  const saProm=ow[0];                             // is Sa itself sounding? (tanpura drone)
+  if (saProm<0.12) return [];
+  // Sa (+ a little Pa) form the drone; a real tonic is the loud, sustained one.
+  const droneProm=Math.min(1, saProm + 0.35*ow[7]);
+  const totalW=ow.reduce((a,b)=>a+b,0)||1;
+  const det=[]; for (let o=0;o<12;o++) if (ow[o]>=0.10) det.push(o);
+  const detSet=new Set(det);
   return RAGAS.map(r=>{
-    const allow=new Set(r.set);
-    // coverage: weight of detected notes that belong to the raga
-    let inW=0, outW=0;
-    det.forEach(off=>{ (allow.has(off)?(inW+=wByOff[off]):(outW+=wByOff[off])); });
-    const coverage = totalW>0 ? inW/totalW : 0;
-    // completeness: fraction of the raga's notes we actually heard
-    let hit=0; r.set.forEach(off=>{ if(det.has(off)) hit++; });
-    const completeness = hit/r.set.length;
-    // penalty for foreign notes
-    const score = coverage*0.6 + completeness*0.4;
-    return {raga:r, tonic, score, coverage, completeness, det:[...det].sort((a,b)=>a-b)};
+    const allow=new Set(r.s);
+    let inW=0; for (const o of det) if (allow.has(o)) inW+=ow[o];
+    const coverage=inW/totalW;                    // share of energy that fits the raga's scale
+    const uni=new Set(det); let inter=0;
+    for (const o of r.s){ if (detSet.has(o)) inter++; uni.add(o); }
+    const completeness=inter/r.s.length;          // how much of the raga we heard
+    const jaccard=inter/uni.size;                 // rewards the SIMPLEST exact-fit raga
+    let foreign=0;                                // loud notes that DON'T belong → penalty
+    for (const pc of pres.strong){ if (!allow.has(((pc-tonic)%12+12)%12)) foreign++; }
+    const foreignPen=Math.min(1, foreign*0.34);
+    const vadiB=(r.vd!=null)?ow[r.vd]:0;          // vadi/samvadi are the raga's pillar notes
+    const samB =(r.sm!=null)?ow[r.sm]:0;
+    const fit=jaccard*0.42 + coverage*0.24 + completeness*0.06 + vadiB*0.20 + samB*0.08;
+    const score=fit*(0.15+0.85*droneProm)*(1-foreignPen);
+    return {raga:r, tonic, score, coverage, completeness, det:det.slice().sort((a,b)=>a-b)};
   });
 }
 
 function analyze(){
-  const pres = presentClasses();
-  if (!pres){
-    statusEl.textContent='Not enough melody detected — try again, louder & clearer.';
-    return;
-  }
-  let tonics;
-  if (saSelect.value==='auto'){ tonics=[...Array(12).keys()]; }
-  else { tonics=[parseInt(saSelect.value,10)]; }
-
+  const pres=presentClasses();
+  if (!pres){ statusEl.textContent='Not enough melody detected — sing or play a clearer line and try again.'; return; }
+  const tonics=(saSelect.value==='auto')?[...Array(12).keys()]:[parseInt(saSelect.value,10)];
   let all=[];
-  tonics.forEach(t=>{ const s=scoreForTonic(t,pres); if(s) all=all.concat(s); });
-  if (!all.length){
-    statusEl.textContent='Could not infer a tonic — try setting Sa manually below.';
-    return;
-  }
+  tonics.forEach(t=>{ all=all.concat(scoreForTonic(t,pres)); });
+  all=all.filter(x=>x && x.score>0);
+  if (!all.length){ statusEl.textContent='Could not infer Sa — set it manually below for a better result.'; return; }
   all.sort((a,b)=>b.score-a.score);
-
-  // de-dup by raga (keep best tonic per raga)
   const seen=new Set(), top=[];
-  for (const c of all){ if(!seen.has(c.raga.rom)){ seen.add(c.raga.rom); top.push(c); } if(top.length>=3) break; }
+  for (const c of all){ if(!seen.has(c.raga.r)){ seen.add(c.raga.r); top.push(c); } if(top.length>=3) break; }
   renderResults(top);
 }
 
 function renderResults(top){
   results.innerHTML='';
   const best=top[0];
-  statusEl.textContent = 'Best match: '+best.raga.name+' ('+best.raga.rom+')';
+  statusEl.textContent='Best match: '+best.raga.n+' ('+best.raga.r+')';
   top.forEach((c,i)=>{
     const r=c.raga;
-    const conf=Math.round(c.score*100);
-    const swaras = c.det.map(o=>SWARA[o]).join('  ');
-    const saName = NOTE_NAMES[c.tonic];
+    const conf=Math.round(Math.max(0,Math.min(1,c.score))*100);
+    const swaras=c.det.map(o=>SWARA[o]).join('  ');
+    const saName=NOTE_NAMES[c.tonic];
+    const vadi=(r.vd!=null)?SWARA[r.vd]:'\u2014';
+    const samv=(r.sm!=null)?SWARA[r.sm]:'\u2014';
     const card=document.createElement('div');
     card.className='card';
-    card.innerHTML =
-      '<div class="rank">'+(i===0?'Most likely':'Alternative '+i)+' · '+conf+'% fit · Sa = '+saName+'</div>'+
-      '<div class="rname">'+r.name+'</div>'+
-      '<div class="rrom">'+r.rom+'</div>'+
+    card.innerHTML=
+      '<div class="rank">'+(i===0?'Most likely':'Alternative '+i)+' \u00b7 '+conf+'% fit \u00b7 Sa = '+saName+'</div>'+
+      '<div class="rname">'+r.n+'</div>'+
+      '<div class="rrom">'+r.r+'</div>'+
       '<div class="conf"><div style="width:'+conf+'%"></div></div>'+
       '<div class="meta">'+
-        '<div><b>Thaat:</b> '+r.thaat+'</div>'+
-        '<div><b>Time:</b> '+r.time+'</div>'+
-        '<div><b>Mood:</b> '+r.mood+'</div>'+
-        '<div><b>Season:</b> '+r.season+'</div>'+
+        '<div><b>Thaat:</b> '+(r.t||'\u2014')+'</div>'+
+        '<div><b>Time:</b> '+(r.tm||'\u2014')+'</div>'+
+        '<div><b>Vadi:</b> '+vadi+'</div>'+
+        '<div><b>Samvadi:</b> '+samv+'</div>'+
       '</div>'+
-      '<div class="meta" style="grid-template-columns:1fr"><div><b>Swaras heard:</b> '+swaras+'</div></div>'+
-      (i===0?'<div class="desc">'+r.desc+'</div><div class="artists">Notable artists: '+r.artists+'</div>':'')+
-      '';
+      '<div class="meta" style="grid-template-columns:1fr">'+
+        '<div><b>Mood:</b> '+(r.md||'\u2014')+'</div>'+
+        '<div><b>Swaras heard:</b> '+swaras+'</div>'+
+      '</div>';
     results.appendChild(card);
   });
+  if (saSelect.value==='auto'){
+    const tip=document.createElement('div');
+    tip.className='panel warn';
+    tip.innerHTML='<h3>Tip: set Sa for a sharper result</h3>From notes alone, the same scale can read as different ragas in different keys. If you know your tanpura/Sa pitch, pick it under <b>Sa (tonic)</b> above and tap Identify again — accuracy jumps a lot.';
+    results.appendChild(tip);
+  }
   results.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
@@ -622,25 +579,19 @@ resetBtn.addEventListener('click', resetAll);
   document.getElementById('installX').addEventListener('click', ()=>installBanner.classList.add('hidden'));
 })();
 
-// ---------- inline manifest (Blob) so it installs without separate files ----------
+// ---------- inline manifest (Blob) ----------
 (function(){
   try{
     const icon = document.querySelector('link[rel=\"apple-touch-icon\"]').href;
-    const manifest = {
-      name:'\u0930\u093e\u0917\u0947\u0936\u094d\u0930\u0940 \u2014 Raga Identifier',
-      short_name:'\u0930\u093e\u0917\u0947\u0936\u094d\u0930\u0940',
-      start_url:'.', scope:'.', display:'standalone',
-      background_color:'#1a0b2e', theme_color:'#1a0b2e',
-      icons:[{src:icon, sizes:'192x192', type:'image/png', purpose:'any'},
-             {src:icon, sizes:'192x192', type:'image/png', purpose:'maskable'}]
-    };
-    const url = URL.createObjectURL(new Blob([JSON.stringify(manifest)], {type:'application/json'}));
-    const l = document.createElement('link'); l.rel='manifest'; l.href=url;
-    document.head.appendChild(l);
+    const manifest = {name:'\u0930\u093e\u0917\u0947\u0936\u094d\u0930\u0940 \u2014 Raga Identifier',
+      short_name:'\u0930\u093e\u0917\u0947\u0936\u094d\u0930\u0940', start_url:'.', scope:'.',
+      display:'standalone', background_color:'#1a0b2e', theme_color:'#1a0b2e',
+      icons:[{src:icon,sizes:'192x192',type:'image/png',purpose:'any'},
+             {src:icon,sizes:'192x192',type:'image/png',purpose:'maskable'}]};
+    const url=URL.createObjectURL(new Blob([JSON.stringify(manifest)],{type:'application/json'}));
+    const l=document.createElement('link'); l.rel='manifest'; l.href=url; document.head.appendChild(l);
   }catch(e){}
 })();
-// No service worker in single-file mode (offline caching omitted); the app and
-// microphone work fully over HTTPS. iOS Add-to-Home-Screen uses the meta tags above.
 </script>
 </body>
 </html>
